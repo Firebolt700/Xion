@@ -9,7 +9,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.default()
 intents.message_content = True
-
+#Add command prefixes
 client = discord.Client(intents=intents)
 
 @client.event
@@ -29,10 +29,14 @@ async def on_message(message):
     if message.content == 'Who am I supposed to eat ice cream with?':
         response = 'What the fuck is wrong with u'
         await message.channel.send(response)
+    
+    '''if message.content == 'Skibidi Toilet':
+        response = ':skull:'
+        await message.channel.send(response)'''
 
-    if message.author.id == 305783441943953419:
+    '''if message.author.id == 305783441943953419:
         await message.delete()
         response = 'To the Realm of Darkness with your bullshit.'
-        await message.channel.send(response)
+        await message.channel.send(response)'''
 
 client.run(TOKEN)
