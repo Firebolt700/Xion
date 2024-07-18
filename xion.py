@@ -162,7 +162,7 @@ async def mudae_rolls():
 
 # Cool embedded message command to print out all of the members of Organization XIII and some details about each of them in a pretty looking way
 @bot.command(name='orgxiii', help='Lists members of Organization XIII, the element they control, and type of Nobody they command.')
-async def orgXIII(ctx):
+async def org_XIII(ctx):
 
     ''' Old stinky way just using text and markup
     orgXIIIList = [
@@ -212,7 +212,7 @@ async def orgXIII(ctx):
 
 # Searches the KH wiki for an entered term, has to match the format of the KH Wiki URL format
 @bot.command(name='khwiki', help='Searches for a specific term on the KH Wiki and sends the link to the webpage')
-async def khwiki(ctx, *target):
+async def kh_wiki(ctx, *target):
     # Check if a parameter for the command was given or if its null/empty
     if target is None or not target:
         await ctx.send('Please specify a term to search for on the KH Wiki.')
@@ -246,6 +246,40 @@ async def nobody_name(ctx, target):
 
     # Send Nobody name
     await ctx.send('Your Nobody name is ' + nobodyName)
+
+# Picks a random quote from Kingdom Hearts and sends it to the chat
+@bot.command(name='khquote', help='Picks a random meme quote from Kingdom Hearts and sends it to the chat')
+async def kh_quote(ctx):
+
+    # Create list of quotes that can be added to
+    quoteLibrary = [
+        "I'll get him.",
+        "Say, fellas, did somebody mention the Door to Darkness?",
+        "I know now, without a doubt, Kingdom Hearts... is light!",
+        "Dance, water, dance!",
+        "I have some unfinished business with this puppet.",
+        "You're stupid!",
+        "Got it memorized?",
+        "As if!",
+        "You see, darkness is the heart's true essence.",
+        "Can you spare a heart?",
+        "No wonder no one wants to die.",
+        "And not just the _____. The word _____. They stole it too!",
+        "\"I'm me\", he says.",
+        "Who else will I have ice cream with?",
+        "Kairi's... Kairi's inside me?",
+        "Your pain shall be twofold!",
+        "CHEEEEEEEEEEEeeeeeeeeuuuuhhh....",
+        "That didn't take long. Did it break again?",
+        "Come, Guardian!",
+        "*Donald death sound*",
+        "They'll pay for this.",
+        "He's got bugs in him!",
+        "A faithful Replica, until the very end. That's... okay.",
+        "*&&X%"
+    ]
+
+    await ctx.send(random.choice(quoteLibrary))
         
 # Runs Xion using the generated bot token
 bot.run(TOKEN)
