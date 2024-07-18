@@ -30,4 +30,9 @@ async def on_message(message):
         response = 'What the fuck is wrong with u'
         await message.channel.send(response)
 
+    if message.author.id == 305783441943953419:
+        await client.delete_message(message)
+        response = 'To the Realm of Darkness with your bullshit.'
+        await message.channel.send(response)
+
 client.run(TOKEN)
