@@ -26,4 +26,8 @@ async def on_message(message):
         response = 'Roxas, that\'s a stick.'
         await message.channel.send(response)
 
+    if message.content == 'Who am I supposed to eat ice cream with?':
+        response = 'What the fuck is wrong with u'
+        await message.channel.send(response)
+
 client.run(TOKEN)
