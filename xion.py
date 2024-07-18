@@ -123,6 +123,7 @@ async def on_message(message):
     if message.author == bot.user:
         return
     
+    # Meme messages #
     if message.content == 'I\'ll use this instead!':
         response = 'Roxas, that\'s a stick.'
         await send_message(message.channel,response)
@@ -135,6 +136,7 @@ async def on_message(message):
         response = ':skull: you\'re going straight to Kingdom Hearts for that one'
         await send_message(message.channel,response)        
 
+    # Test for auto deleting messages from a specified user
     '''if message.author.id == 305783441943953419:
         await message.delete()
         response = 'To the Realm of Darkness with your bullshit.'
@@ -148,38 +150,8 @@ async def on_message(message):
 @bot.event
 async def send_message(channel, message):
     await channel.send(message)
-    
 
 ''' DOES NOT WORK - MUDAE CANT READ COMMANDS FROM OTHER BOTS
-mudaeRollTimes = [datetime.time(0,10),
-                 datetime.time(1,10),
-                 datetime.time(2,10),
-                 datetime.time(3,10),
-                 datetime.time(4,10),
-                 datetime.time(5,10),
-                 datetime.time(6,10),
-                 datetime.time(7,10),
-                 datetime.time(8,10),
-                 datetime.time(9,10),
-                 datetime.time(10,10),
-                 datetime.time(11,10),
-                 datetime.time(12,10),
-                 datetime.time(13,10),
-                 datetime.time(14,10),
-                 datetime.time(15,10),
-                 datetime.time(16,10),
-                 datetime.time(17,10),
-                 datetime.time(18,10),
-                 datetime.time(19,10),
-                 datetime.time(20,10),
-                 datetime.time(21,10),
-                 datetime.time(22,10),
-                 datetime.time(23,10),
-                 datetime.time(12,50)]
-
-for rollTime in mudaeRollTimes:
-     print(rollTime)
-
 @tasks.loop(time=mudaeRollTimes)
 async def mudae_rolls():
     mudaeChannel = bot.get_channel(1216546351081328671)
