@@ -3,6 +3,8 @@ import os
 
 import discord
 import datetime
+import random
+from random import shuffle
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
 
@@ -107,7 +109,7 @@ async def orgXIII(ctx):
         'Luxord, power over **Time**, commands **Gamblers**',
         'Marluxia AKA Lauriam, power over **Flowers**, commands **Reapers**',
         'Larxene AKA Elrena, power over **Lightning**, commands **Ninjas**',
-        'Roxas AKA Sora, power over **Light**, controls **Samurai**',
+        'Roxas AKA Sora, power over **Light**, commands **Samurai**',
         'Xion AKA Replica No. i, power over **Light**'
     ]
 
@@ -124,13 +126,36 @@ async def khwiki(ctx, *target):
         await ctx.send('Please specify a term to search for on the KH Wiki.')
         return
     
-    target = '_'.join(target)
-
     khWikiLink = 'https://www.khwiki.com/'
+    
+    target = '_'.join(target)
 
     khWikiLink += target
 
     await ctx.send(khWikiLink)
 
+@bot.command(name='nobodyname', help='Takes a word/name and Nobody-izes it (shuffles the letters and adds an X)')
+async def nobody_name(ctx, target):
+    if target is None or target == '':
+        await ctx.send('Please specify a word or name to create a Nobody name.')
+        return
+    
+    # Choose a random spot to place the added X
+    randomCharIndex = random.randint(0, len(target))
+
+    # Create the Nobody name
+    nobodyName = list(target) # initially create name as list of input string
+    nobodyName.insert(randomCharIndex, 'x') # add the letter X to a random spot in the list
+    shuffle(nobodyName) # shuffle the list contents
+    nobodyName = ''.join(nobodyName) # re-join the characters from the list as a string
+
+    # Make all characters in the name lowercase...
+    nobodyName = nobodyName.lower()
+    # ...then capitalize the first letter to make it look like a name
+    nobodyName = nobodyName.capitalize()
+
+    # Send Nobody name
+    await ctx.send('Your Nobody name is ' + nobodyName)
+        
 
 bot.run(TOKEN)
