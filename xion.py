@@ -81,7 +81,7 @@ TODO:
 
 ''' 
 
-# import stuff
+# Import stuff
 import os
 import discord
 import datetime
@@ -90,7 +90,10 @@ from random import shuffle
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
 
-# load .env file contents
+# Message if command entered incorrectly
+commandErrorMessage = 'You messed up entering the command, bozo. Try again.'
+
+# Load .env file contents
 load_dotenv() 
 
 # Get Xion bot token value
@@ -124,17 +127,17 @@ async def on_message(message):
         return
     
     # Meme messages #
-    if message.content == 'I\'ll use this instead!':
+    if message.content == 'I can improvise':
         response = 'Roxas, that\'s a stick.'
-        await send_message(message.channel,response)
+        await send_message(message.channel, response)
 
     if message.content == 'Who am I supposed to eat ice cream with?':
         response = 'What the fuck is wrong with u'
-        await send_message(message.channel,response)
+        await send_message(message.channel, response)
     
     if message.content.casefold() == 'Skibidi Toilet'.casefold():
         response = ':skull: you\'re going straight to Kingdom Hearts for that one'
-        await send_message(message.channel,response)        
+        await send_message(message.channel, response)        
 
     # Test for auto deleting messages from a specified user
     '''if message.author.id == 305783441943953419:
@@ -151,7 +154,8 @@ async def on_message(message):
 async def send_message(channel, message):
     await channel.send(message)
 
-''' DOES NOT WORK - MUDAE CANT READ COMMANDS FROM OTHER BOTS
+# DOES NOT WORK - MUDAE CANT READ COMMANDS FROM OTHER BOTS
+'''
 @tasks.loop(time=mudaeRollTimes)
 async def mudae_rolls():
     mudaeChannel = bot.get_channel(1216546351081328671)
@@ -164,7 +168,8 @@ async def mudae_rolls():
 @bot.command(name='orgxiii', help='Lists members of Organization XIII, the element they control, and type of Nobody they command.')
 async def org_XIII(ctx):
 
-    ''' Old stinky way just using text and markup
+    # Old stinky way just using text and markup
+    '''
     orgXIIIList = [
         '### Organization XIII',
         '* I. Xemnas AKA Ansem (Xehanort), power over **Nothingness**, commands **Sorcerers**',
@@ -280,6 +285,54 @@ async def kh_quote(ctx):
     ]
 
     await ctx.send(random.choice(quoteLibrary))
+
+# TODO: Fix this garbage
+# Rolls various sided dice, mostly meant for DND purposes
+@bot.command(name='roll', help='Rolls any number of multi-sided die and displays all results')
+async def roll(ctx, *dice):
+
+    currentRolls = []
+    finalRolls = [[]]
+    finalResults = []
+
+    # Loop through dice array
+    for die in dice:
+        
+        # Separate roll modifiers
+        numberOfRolls = die.split('d')[0]
+        sidedDie = die.split('d')[1]
+
+        # Check to make sure the roll modifier numbers were grabbed correctly
+        if numberOfRolls is None or numberOfRolls == '' or not numberOfRolls.isdigit():
+            numberOfRolls = 1
+
+        if sidedDie is None or sidedDie == '' or not sidedDie.isdigit():
+            await ctx.send(commandErrorMessage)
+            return
+        
+        # Do the rolls based on the number of rolls specified and the number of sides on the die
+        for roll in range(numberOfRolls):
+            roll = random.randint(1, int(sidedDie))
+            currentRolls.append(roll)
+
+        finalRolls.append(currentRolls)
+
+    # Add up the results of the rolls and prepare to display them   
+    for rollSet in finalRolls:
+        results = ''
+
+        for roll in rollSet:
+            results += ' + '.join(str(roll))
+
+        results += " = " + str(sum(rollSet)) + "\n\n"
+        finalResults.append(results)
+
+    finalMessage = 'Roll results: \n\n'
+
+    for result in finalResults:
+        finalMessage += result
+
+    await ctx.send(finalMessage)
         
 # Runs Xion using the generated bot token
 bot.run(TOKEN)
