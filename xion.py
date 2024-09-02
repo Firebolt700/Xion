@@ -120,7 +120,7 @@ async def on_ready():
         '''
 
     while True:
-        send_message(bot.get_channel(1263303758410940427), '@.sap0 give kanji')
+        await send_message(bot.get_channel(1263303758410940427), "<@222040961524563972> give kanji")
         user = await bot.fetch_user("222040961524563972")
         await user.send("give kanji")
 
