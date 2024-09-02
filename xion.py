@@ -118,7 +118,12 @@ async def on_ready():
         if guild.id == 710204623394308106:
             await send_message(bot.get_channel(1263303758410940427), f'{bot.user} has entered the Round Room. Praise Kingdom Hearts.')
         '''
-		
+
+    while True:
+        send_message(bot.get_channel(1263303758410940427), '@.sap0 give kanji')
+        user = await bot.fetch_user("222040961524563972")
+        await user.send("give kanji")
+
 # Event that runs for every messsage sent in the server, but only responds to specific hard-coded messages
 @bot.event
 async def on_message(message):
