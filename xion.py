@@ -84,11 +84,9 @@ TODO:
 # Import stuff
 import os
 import discord
-import datetime
 import random
-import time
 from random import shuffle
-from discord.ext import tasks, commands
+from discord.ext import commands
 from dotenv import load_dotenv
 
 ### Local custom variables:
