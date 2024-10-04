@@ -86,6 +86,7 @@ import os
 import discord
 import datetime
 import random
+import time
 from random import shuffle
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
@@ -119,11 +120,14 @@ async def on_ready():
             await send_message(bot.get_channel(1263303758410940427), f'{bot.user} has entered the Round Room. Praise Kingdom Hearts.')
         '''
 
+''' Tristin trolling tee hee
     while True:
         await send_message(bot.get_channel(1263303758410940427), "<@222040961524563972> give kanji")
+        await send_message(bot.get_channel(1273081754990805184), "<@222040961524563972> give kanji")
         user = await bot.fetch_user("222040961524563972")
         await user.send("give kanji")
-
+        time.sleep(1)
+'''
 # Event that runs for every messsage sent in the server, but only responds to specific hard-coded messages
 @bot.event
 async def on_message(message):
@@ -131,7 +135,7 @@ async def on_message(message):
     if message.author == bot.user:
         return
     
-    # Meme messages #
+    # Meme messages
     if message.content == 'I can improvise':
         response = 'Roxas, that\'s a stick.'
         await send_message(message.channel, response)
@@ -155,9 +159,12 @@ async def on_message(message):
     await bot.process_commands(message)
 
 # Useful method for having Xion send a message in custom commands/events
+# Commenting out for now since I think this method might be redundant -- can send message by doing bot.get_channel(channelID).send("message")
+'''
 @bot.event
 async def send_message(channel, message):
     await channel.send(message)
+'''
 
 # DOES NOT WORK - MUDAE CANT READ COMMANDS FROM OTHER BOTS
 '''
@@ -296,6 +303,9 @@ async def kh_quote(ctx):
 @bot.command(name='roll', help='Rolls any number of multi-sided die and displays all results')
 async def roll(ctx, *dice):
 
+    # Currently not working, need a DND brain to figure this out
+    await ctx.send("Dice roll machine broke, come back later")
+    '''
     currentRolls = []
     finalRolls = [[]]
     finalResults = []
@@ -338,6 +348,7 @@ async def roll(ctx, *dice):
         finalMessage += result
 
     await ctx.send(finalMessage)
+    '''
         
 # Runs Xion using the generated bot token
 bot.run(TOKEN)
