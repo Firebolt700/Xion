@@ -91,6 +91,7 @@ from random import shuffle
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
 
+### Local custom variables:
 # Message if command entered incorrectly
 commandErrorMessage = 'You messed up entering the command, bozo. Try again.'
 
@@ -111,7 +112,7 @@ async def on_ready():
     
     # For each Discord server Xion is in
     for guild in bot.guilds:
-        # PRINT THE SERVER'S ID AND NAME.
+        # Print the server ID and server name
         print(f"- {guild.id} (name: {guild.name})")
 
         # Test for sending ready message to Discord server chat
@@ -120,7 +121,8 @@ async def on_ready():
             await send_message(bot.get_channel(1263303758410940427), f'{bot.user} has entered the Round Room. Praise Kingdom Hearts.')
         '''
 
-''' Tristin trolling tee hee
+# Tristin trolling code (could be useful later) (don't hold my mudae characters hostage, fuck around and find out)
+'''
     while True:
         await send_message(bot.get_channel(1263303758410940427), "<@222040961524563972> give kanji")
         await send_message(bot.get_channel(1273081754990805184), "<@222040961524563972> give kanji")
@@ -131,10 +133,17 @@ async def on_ready():
 # Event that runs for every messsage sent in the server, but only responds to specific hard-coded messages
 @bot.event
 async def on_message(message):
+
     # Xion, don't read your own messages
     if message.author == bot.user:
         return
-    
+
+    # If the message contains any bot commands, run them
+    if message.content.startswith(bot.command_prefix):
+        await bot.process_commands(message)
+
+    # Old if-else method of handling hard-coded responses for meme messages
+    '''
     # Meme messages
     if message.content == 'I can improvise':
         response = 'Roxas, that\'s a stick.'
@@ -146,17 +155,25 @@ async def on_message(message):
     
     if message.content.casefold() == 'Skibidi Toilet'.casefold():
         response = ':skull: you\'re going straight to Kingdom Hearts for that one'
-        await message.channel.send(response)
-
-    # Test for auto deleting messages from a specified user
-    '''if message.author.id == 305783441943953419:
-        await message.delete()
-        response = 'To the Realm of Darkness with your bullshit.'
-        await message.channel.send(response)
+        await message.channel.send(response) 
     '''
-    
 
-    await bot.process_commands(message)
+    # Create dictionary (key-value pairs) for hard-coded messages/responses
+    memeMessageDict = {
+        "I can improvise": "Roxas, that's a stick.",
+        "Who else will I have ice cream with?": "What the fuck is wrong with u",
+        "Skibidi Toilet": ":skull: you're going straight to Kingdom Hearts for that one"
+    }
+
+    # Create response string with default response
+    response = "This is the default hard-coded response, if this gets sent in Discord, tell Saix I broke again"
+
+    # Loop through the meme message dictionary and send the appropriate response/value if the incoming message matches a key
+    for key in memeMessageDict:
+        if message.content.casefold() == key.casefold():
+            response = memeMessageDict[key]
+            await message.channel.send(response)
+            break
 
 # Useful method for having Xion send a message in custom commands/events
 # Commenting out for now since I think this method might be redundant -- can send message by doing bot.get_channel(channelID).send("message")
@@ -210,6 +227,7 @@ async def org_XIII(ctx):
 
     # New cool way using embedded messages
     embedOrgXIII = discord.Embed(title="Organization XIII", description="Seeking to complete Kingdom Hearts and become whole", color=0x808080) # 808080 - Hex code for the color grey
+
     embedOrgXIII.add_field(name="I. Xemnas", value="AKA Ansem (Xehanort), power over **Nothingness**, commands **Sorcerers**", inline=False)
     embedOrgXIII.add_field(name="II. Xigbar", value="AKA Braig, power over **Space**, commands **Snipers**", inline=False)
     embedOrgXIII.add_field(name="III. Xaldin", value="AKA Dilan, power over **Wind**, commands **Dragoons**", inline=False)
@@ -224,6 +242,7 @@ async def org_XIII(ctx):
     embedOrgXIII.add_field(name="XII. Larxene", value="AKA Elrena, power over **Lightning**, commands **Ninjas**", inline=False)
     embedOrgXIII.add_field(name="XIII. Roxas", value="AKA Sora, power over **Light** and **Sticks**, commands **Samurai**", inline=False)
     embedOrgXIII.add_field(name="XIV. Xion", value="AKA Replica No. i, power over **Light**", inline=False)
+
     await ctx.send(embed=embedOrgXIII)
 
 
@@ -296,6 +315,7 @@ async def kh_quote(ctx):
         "*&&X%"
     ]
 
+    # Send randomly chosen quote
     await ctx.send(random.choice(quoteLibrary))
 
 # TODO: Fix this garbage
