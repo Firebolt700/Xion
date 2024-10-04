@@ -138,15 +138,15 @@ async def on_message(message):
     # Meme messages
     if message.content == 'I can improvise':
         response = 'Roxas, that\'s a stick.'
-        await send_message(message.channel, response)
+        await message.channel.send(response)
 
     if message.content == 'Who am I supposed to eat ice cream with?':
         response = 'What the fuck is wrong with u'
-        await send_message(message.channel, response)
+        await message.channel.send(response)
     
     if message.content.casefold() == 'Skibidi Toilet'.casefold():
         response = ':skull: you\'re going straight to Kingdom Hearts for that one'
-        await send_message(message.channel, response)        
+        await message.channel.send(response)
 
     # Test for auto deleting messages from a specified user
     '''if message.author.id == 305783441943953419:
