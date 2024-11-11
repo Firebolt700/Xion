@@ -100,8 +100,8 @@ class Xion(commands.Bot):
 
         # For each Discord server Xion is in
         for guild in self.guilds:
-            # Print the server ID and server name
-            print(f"- {guild.id} (name: {guild.name})")
+            # Print the server name and server ID
+            print(f"- {guild.name} (ID: {guild.id})")
 
         # Print ready message to console
         print(f"{self.user} has entered the Round Room. Praise Kingdom Hearts.")
