@@ -105,13 +105,19 @@ class Xion_Commands(commands.Cog):
             inline=False,
         )
         embedOrgXIII.add_field(
-            name="IV. Vexen", value="AKA Even, power over **Ice**", inline=False
+            name="IV. Vexen",
+            value="AKA Even, power over **Ice**",
+            inline=False,
         )
         embedOrgXIII.add_field(
-            name="V. Lexaeus", value="AKA Aeleus, power over **Earth**", inline=False
+            name="V. Lexaeus",
+            value="AKA Aeleus, power over **Earth**",
+            inline=False,
         )
         embedOrgXIII.add_field(
-            name="VI. Zexion", value="AKA Ienzo, power over **Illusions**", inline=False
+            name="VI. Zexion",
+            value="AKA Ienzo, power over **Illusions**",
+            inline=False,
         )
         embedOrgXIII.add_field(
             name="VII. Saix",
