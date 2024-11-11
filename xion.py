@@ -1,5 +1,5 @@
-'''
-xion.py - No. XIV but as a Discord bot this time, instead of a Replica
+"""
+Xion.py - No. XIV but as a Discord bot this time, instead of a Replica
 
 Who else would we have ice cream with?
 
@@ -7,10 +7,10 @@ Started on: 2024-07-17
 
 Written by Firebolt and ItsDerPing
 
-~~ Pitiful Heartless, mindlessly collecting hearts. The rage of the 
+~~ Pitiful Heartless, mindlessly collecting hearts. The rage of the
 Keyblade releases those hearts. They gather in darkness, masterless and free...
-until they weave together to make Kingdom Hearts. And when that time comes, we 
-can truly, finally exist. ~~ 
+until they weave together to make Kingdom Hearts. And when that time comes, we
+can truly, finally exist. ~~
 
 TODO:
 - Separate variables/functions that don't need to be stored in xion.py into other .py files, for organization(13)/education's sake
@@ -79,294 +79,45 @@ TODO:
 ⠂⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡗⢸⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⣿⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⣾
 ⠀⣾⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⣿⣿⠣⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⣠⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⣾⣿
 
-''' 
+"""
 
 # Import stuff
 import os
+
 import discord
-import random
-from random import shuffle
 from discord.ext import commands
 from dotenv import load_dotenv
 
-### Local custom variables:
-# Message if command entered incorrectly
-commandErrorMessage = 'You messed up entering the command, bozo. Try again.'
-
-# Load .env file contents
-load_dotenv() 
-
-# Get Xion bot token value
-TOKEN = os.getenv('DISCORD_TOKEN')
-
- # Assign command prefix and all intents perms
-bot = commands.Bot(command_prefix='*', intents = discord.Intents.all())
-
-# Event that runs every time Xion is first loaded
-@bot.event
-async def on_ready():
-    # Print ready message to console
-    print(f'{bot.user} has entered the Round Room. Praise Kingdom Hearts.')
-    
-    # For each Discord server Xion is in
-    for guild in bot.guilds:
-        # Print the server ID and server name
-        print(f"- {guild.id} (name: {guild.name})")
-
-        # Test for sending ready message to Discord server chat
-        '''
-        if guild.id == 710204623394308106:
-            await send_message(bot.get_channel(1263303758410940427), f'{bot.user} has entered the Round Room. Praise Kingdom Hearts.')
-        '''
-
-# Tristin trolling code (could be useful later) (don't hold my mudae characters hostage, fuck around and find out)
-'''
-    while True:
-        await send_message(bot.get_channel(1263303758410940427), "<@222040961524563972> give kanji")
-        await send_message(bot.get_channel(1273081754990805184), "<@222040961524563972> give kanji")
-        user = await bot.fetch_user("222040961524563972")
-        await user.send("give kanji")
-        time.sleep(1)
-'''
-# Event that runs for every messsage sent in the server, but only responds to specific hard-coded messages
-@bot.event
-async def on_message(message):
-
-    # Xion, don't read your own messages
-    if message.author == bot.user:
-        return
-
-    # If the message contains any bot commands, run them
-    if message.content.startswith(bot.command_prefix):
-        await bot.process_commands(message)
-
-    # Old if-else method of handling hard-coded responses for meme messages
-    '''
-    # Meme messages
-    if message.content == 'I can improvise':
-        response = 'Roxas, that\'s a stick.'
-        await message.channel.send(response)
-
-    if message.content == 'Who am I supposed to eat ice cream with?':
-        response = 'What the fuck is wrong with u'
-        await message.channel.send(response)
-    
-    if message.content.casefold() == 'Skibidi Toilet'.casefold():
-        response = ':skull: you\'re going straight to Kingdom Hearts for that one'
-        await message.channel.send(response) 
-    '''
-
-    # Create dictionary (key-value pairs) for hard-coded messages/responses
-    memeMessageDict = {
-        "I can improvise": "Roxas, that's a stick.",
-        "Who else will I have ice cream with?": "What the fuck is wrong with u",
-        "Skibidi Toilet": ":skull: you're going straight to Kingdom Hearts for that one"
-    }
-
-    # Create response string with default response
-    response = "This is the default hard-coded response, if this gets sent in Discord, tell Saix I broke again"
-
-    # Loop through the meme message dictionary and send the appropriate response/value if the incoming message matches a key
-    for key in memeMessageDict:
-        if message.content.casefold() == key.casefold():
-            response = memeMessageDict[key]
-            await message.channel.send(response)
-            break
-
-# Useful method for having Xion send a message in custom commands/events
-# Commenting out for now since I think this method might be redundant -- can send message by doing bot.get_channel(channelID).send("message")
-'''
-@bot.event
-async def send_message(channel, message):
-    await channel.send(message)
-'''
-
-# DOES NOT WORK - MUDAE CANT READ COMMANDS FROM OTHER BOTS
-'''
-@tasks.loop(time=mudaeRollTimes)
-async def mudae_rolls():
-    mudaeChannel = bot.get_channel(1216546351081328671)
-    print('Running mudae rolls...')
-    await mudaeChannel.send('Free community rolls!')
-    await mudaeChannel.send('$m')
-'''
-
-# Cool embedded message command to print out all of the members of Organization XIII and some details about each of them in a pretty looking way
-@bot.command(name='orgxiii', help='Lists members of Organization XIII, the element they control, and type of Nobody they command.')
-async def org_XIII(ctx):
-
-    # Old stinky way just using text and markup
-    '''
-    orgXIIIList = [
-        '### Organization XIII',
-        '* I. Xemnas AKA Ansem (Xehanort), power over **Nothingness**, commands **Sorcerers**',
-        '* II. Xigbar AKA Braig, power over **Space**, commands **Snipers**',
-        '* III. Xaldin AKA Dilan, power over **Wind**, commands **Dragoons**',
-        '* IV. Vexen AKA Even, power over **Ice**',
-        '* V. Lexaeus AKA Aeleus, power over **Earth**',
-        '* VI. Zexion AKA Ienzo, power over **Illusions**',
-        '* VII. Saix AKA Isa, power over the **Moon**, commands **Berserkers**',
-        '* VIII. Axel AKA Lea, power over **Fire**, commands **Assassins**',
-        '* IX. Demyx, power over ***DANCE WATER DANCE***, commands **Dancers**',
-        '* X. Luxord, power over **Time**, commands **Gamblers**',
-        '* XI. Marluxia AKA Lauriam, power over **Flowers**, commands **Reapers**',
-        '* XII. Larxene AKA Elrena, power over **Lightning**, commands **Ninjas**',
-        '* XIII. Roxas AKA Sora, power over **Light**, commands **Samurai**',
-        '* XIV. Xion AKA Replica No. i, power over **Light**'
-    ]
-
-    message = ''
-
-    for orgXIIIMember in orgXIIIList:
-        message += orgXIIIMember + '\n'
-
-    await ctx.send(message)
-    '''
-
-    # New cool way using embedded messages
-    embedOrgXIII = discord.Embed(title="Organization XIII", description="Seeking to complete Kingdom Hearts and become whole", color=0x808080) # 808080 - Hex code for the color grey
-
-    embedOrgXIII.add_field(name="I. Xemnas", value="AKA Ansem (Xehanort), power over **Nothingness**, commands **Sorcerers**", inline=False)
-    embedOrgXIII.add_field(name="II. Xigbar", value="AKA Braig, power over **Space**, commands **Snipers**", inline=False)
-    embedOrgXIII.add_field(name="III. Xaldin", value="AKA Dilan, power over **Wind**, commands **Dragoons**", inline=False)
-    embedOrgXIII.add_field(name="IV. Vexen", value="AKA Even, power over **Ice**", inline=False)
-    embedOrgXIII.add_field(name="V. Lexaeus", value="AKA Aeleus, power over **Earth**", inline=False)
-    embedOrgXIII.add_field(name="VI. Zexion", value="AKA Ienzo, power over **Illusions**", inline=False)
-    embedOrgXIII.add_field(name="VII. Saix", value="AKA Isa, power over the **Moon**, commands **Berserkers**", inline=False)
-    embedOrgXIII.add_field(name="VIII. Axel", value="AKA Lea, power over **Fire**, commands **Assassins**", inline=False)
-    embedOrgXIII.add_field(name="IX. Demyx", value="Power over ***DANCE WATER DANCE***, commands **Dancers**", inline=False)
-    embedOrgXIII.add_field(name="X. Luxord", value="Power over **Time**, commands **Gamblers**", inline=False)
-    embedOrgXIII.add_field(name="XI. Marluxia", value="Marluxia AKA Lauriam, power over **Flowers**, commands **Reapers**", inline=False)
-    embedOrgXIII.add_field(name="XII. Larxene", value="AKA Elrena, power over **Lightning**, commands **Ninjas**", inline=False)
-    embedOrgXIII.add_field(name="XIII. Roxas", value="AKA Sora, power over **Light** and **Sticks**, commands **Samurai**", inline=False)
-    embedOrgXIII.add_field(name="XIV. Xion", value="AKA Replica No. i, power over **Light**", inline=False)
-
-    await ctx.send(embed=embedOrgXIII)
+from Xion_Commands import Xion_Commands
 
 
-# Searches the KH wiki for an entered term, has to match the format of the KH Wiki URL format
-@bot.command(name='khwiki', help='Searches for a specific term on the KH Wiki and sends the link to the webpage')
-async def kh_wiki(ctx, *target):
-    # Check if a parameter for the command was given or if its null/empty
-    if target is None or not target:
-        await ctx.send('Please specify a term to search for on the KH Wiki.')
-        return
-    
-    khWikiLink = 'https://www.khwiki.com/' + '_'.join(target)
+# Declare Xion object (same type as Discord command bot)
+class Xion(commands.Bot):
+    # When Xion is ready, add the commands cog that contains most of her functionality
+    async def on_ready(self):
+        # Add cog for commands to Xion
+        await self.add_cog(Xion_Commands(self))
 
-    await ctx.send(khWikiLink)
+        # For each Discord server Xion is in
+        for guild in self.guilds:
+            # Print the server ID and server name
+            print(f"- {guild.id} (name: {guild.name})")
 
-# Takes any name/word and turns into a Nobody styled name similar to the names of the Organization XIII members
-@bot.command(name='nobodyname', help='Takes a word/name and Nobody-izes it (shuffles the letters and adds an X)')
-async def nobody_name(ctx, target):
-    # Check if a parameter for the command was given or if its null/empty
-    if target is None or not target:
-        await ctx.send('Please specify a word or name to create a Nobody name.')
-        return
-    
-    # Choose a random spot to place the added X
-    randomCharIndex = random.randint(0, len(target))
+        # Print ready message to console
+        print(f"{self.user} has entered the Round Room. Praise Kingdom Hearts.")
 
-    # Create the Nobody name
-    nobodyName = list(target) # initially create name as list of input string
-    nobodyName.insert(randomCharIndex, 'x') # add the letter X to a random spot in the list
-    shuffle(nobodyName) # shuffle the list contents
-    nobodyName = ''.join(nobodyName) # re-join the characters from the list as a string
 
-    # Make all characters in the name lowercase...
-    nobodyName = nobodyName.lower()
-    # ...then capitalize the first letter to make it look like a name
-    nobodyName = nobodyName.capitalize()
+# Main method for Xion
+def main():
+    # Load discord bot token environment variable (needed to run Xion)
+    load_dotenv()
+    TOKEN = os.getenv("DISCORD_TOKEN")
 
-    # Send Nobody name
-    await ctx.send('Your Nobody name is ' + nobodyName)
+    # Create Xion instance and run Xion with bot token
+    bot = Xion(command_prefix="*", intents=discord.Intents.all())
+    bot.run(TOKEN)
 
-# Picks a random quote from Kingdom Hearts and sends it to the chat
-@bot.command(name='khquote', help='Picks a random meme quote from Kingdom Hearts and sends it to the chat')
-async def kh_quote(ctx):
 
-    # Create list of quotes that can be added to
-    quoteLibrary = [
-        "I'll get him.",
-        "Say, fellas, did somebody mention the Door to Darkness?",
-        "I know now, without a doubt, Kingdom Hearts... is light!",
-        "Dance, water, dance!",
-        "I have some unfinished business with this puppet.",
-        "You're stupid!",
-        "Got it memorized?",
-        "As if!",
-        "You see, darkness is the heart's true essence.",
-        "Can you spare a heart?",
-        "No wonder no one wants to die.",
-        "And not just the _____. The word _____. They stole it too!",
-        "\"I'm me\", he says.",
-        "Who else will I have ice cream with?",
-        "Kairi's... Kairi's inside me?",
-        "Your pain shall be twofold!",
-        "CHEEEEEEEEEEEeeeeeeeeuuuuhhh....",
-        "That didn't take long. Did it break again?",
-        "Come, Guardian!",
-        "*Donald death sound*",
-        "They'll pay for this.",
-        "He's got bugs in him!",
-        "A faithful Replica, until the very end. That's... okay.",
-        "*&&X%"
-    ]
-
-    # Send randomly chosen quote
-    await ctx.send(random.choice(quoteLibrary))
-
-# TODO: Fix this garbage
-# Rolls various sided dice, mostly meant for DND purposes
-@bot.command(name='roll', help='Rolls any number of multi-sided die and displays all results')
-async def roll(ctx, *dice):
-
-    # Currently not working, need a DND brain to figure this out
-    await ctx.send("Dice roll machine broke, come back later")
-    '''
-    currentRolls = []
-    finalRolls = [[]]
-    finalResults = []
-
-    # Loop through dice array
-    for die in dice:
-        
-        # Separate roll modifiers
-        numberOfRolls = die.split('d')[0]
-        sidedDie = die.split('d')[1]
-
-        # Check to make sure the roll modifier numbers were grabbed correctly
-        if numberOfRolls is None or numberOfRolls == '' or not numberOfRolls.isdigit():
-            numberOfRolls = 1
-
-        if sidedDie is None or sidedDie == '' or not sidedDie.isdigit():
-            await ctx.send(commandErrorMessage)
-            return
-        
-        # Do the rolls based on the number of rolls specified and the number of sides on the die
-        for roll in range(numberOfRolls):
-            roll = random.randint(1, int(sidedDie))
-            currentRolls.append(roll)
-
-        finalRolls.append(currentRolls)
-
-    # Add up the results of the rolls and prepare to display them   
-    for rollSet in finalRolls:
-        results = ''
-
-        for roll in rollSet:
-            results += ' + '.join(str(roll))
-
-        results += " = " + str(sum(rollSet)) + "\n\n"
-        finalResults.append(results)
-
-    finalMessage = 'Roll results: \n\n'
-
-    for result in finalResults:
-        finalMessage += result
-
-    await ctx.send(finalMessage)
-    '''
-        
-# Runs Xion using the generated bot token
-bot.run(TOKEN)
+# Make sure only main method is run
+if __name__ == "__main__":
+    main()
