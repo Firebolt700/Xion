@@ -110,12 +110,15 @@ class Xion(commands.Bot):
 # Main method for Xion
 def main():
     # Load discord bot token environment variable (needed to run Xion)
-    load_dotenv()
-    TOKEN = os.getenv("DISCORD_TOKEN")
+    if load_dotenv():
+        TOKEN = os.getenv("DISCORD_TOKEN")
 
-    # Create Xion instance and run Xion with bot token
-    bot = Xion(command_prefix="*", intents=discord.Intents.all())
-    bot.run(TOKEN)
+        # Create Xion instance and run Xion with bot token
+        bot = Xion(command_prefix="*", intents=discord.Intents.all())
+        bot.run(TOKEN)
+    else:
+        print("There was an issue when loading the Discord bot token from the environment variables, stopping Xion")
+        exit
 
 
 # Make sure only main method is run
