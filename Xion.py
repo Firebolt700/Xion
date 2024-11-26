@@ -5,7 +5,7 @@ Who else would we have ice cream with?
 
 Started on: 2024-07-17
 
-Written by Ben and Dak
+Written by Firebolt and ItsDerPing
 
 ~~ Pitiful Heartless, mindlessly collecting hearts. The rage of the
 Keyblade releases those hearts. They gather in darkness, masterless and free...
