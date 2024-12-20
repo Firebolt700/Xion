@@ -1,5 +1,5 @@
 """
-Xion.py - No. XIV but as a Discord bot this time, instead of a Replica
+xion.py - No. XIV but as a Discord bot this time, instead of a Replica
 
 Who else would we have ice cream with?
 
@@ -81,23 +81,19 @@ TODO:
 
 """
 
-# Import stuff
+### Import stuff
 import os
-
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from commands import XionCommands
 
-from Xion_Commands import Xion_Commands
 
-
+### Xion
 # Declare Xion object (same type as Discord command bot)
 class Xion(commands.Bot):
-    # When Xion is ready, add the commands cog that contains most of her functionality
+    # When Xion is finished starting, print startup messages to console and add the Xion_Commands cog module to unlock Xion_Commands functions
     async def on_ready(self):
-        # Add cog for commands to Xion
-        await self.add_cog(Xion_Commands(self))
-
         # For each Discord server Xion is in
         for guild in self.guilds:
             # Print the server name and server ID
@@ -106,19 +102,28 @@ class Xion(commands.Bot):
         # Print ready message to console
         print(f"{self.user} has entered the Round Room. Praise Kingdom Hearts.")
 
+        # Add Xion_Commands cog to Xion bot
+        await self.add_cog(XionCommands(self))
+
 
 # Main method for Xion
 def main():
-    # Load discord bot token environment variable (needed to run Xion)
-    if load_dotenv():
+    # Load Discord bot token environment variable (needed to run Xion)
+    if load_dotenv() and os.getenv("DISCORD_TOKEN") is not None:
+        # Get Discord token value from .env
         TOKEN = os.getenv("DISCORD_TOKEN")
 
-        # Create Xion instance and run Xion with bot token
+        # Create discord.Bot Xion object instance and run Xion with Discord bot token
+        # command_prefix and intents must be declared in object instance creation, NOT set as a property in __init__
         bot = Xion(command_prefix="*", intents=discord.Intents.all())
         bot.run(TOKEN)
+
+    # Couldn't find either the .env file or the DISCORD_TOKEN value is missing from the .env file
     else:
-        print("There was an issue when loading the Discord bot token from the environment variables, stopping Xion")
-        exit
+        print("Unable to load bot token.")
+        print("Make sure .env exists and DISCORD_TOKEN has a value in it.")
+        print()
+        exit()
 
 
 # Make sure only main method is run
