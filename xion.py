@@ -123,7 +123,6 @@ def main():
         print("Unable to load bot token.")
         print("Make sure .env exists and DISCORD_TOKEN has a value in it.")
         print()
-        exit()
 
 
 # Make sure only main method is run

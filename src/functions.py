@@ -44,23 +44,29 @@ kh_quotes = [
 ]
 
 # Create dictionary (key-value pairs) for hard-coded messages/responses
+# Keys must be written in lowercase for check in pick_response() method to work
 quote_response_dict = {
-    "I can improvise": "Roxas, that's a stick.",
-    "Who else will I have ice cream with?": "What the fuck is wrong with you?",
-    "Skibidi Toilet": ":skull: you're going straight to Kingdom Hearts for that one.",
+    "i can improvise": "Roxas, that's a stick.",
+    "who else will i have ice cream with": "What the fuck is wrong with you?",
+    "skibidi toilet": ":skull: you're going straight to Kingdom Hearts for that one.",
 }
 
 ### XionFunctions
 
 
 # Xion_Commands.on_message()
-def pick_response(message):
-    # Loop through the quote-response dictionary and send the appropriate response/value if the incoming message matches a key
-    for key in quote_response_dict:
-        if message.content.casefold() == key.casefold():
-            return quote_response_dict[key]
-        else:
-            return
+def pick_response(quote):
+
+    # Compare quote-response dictionary keys to incoming message
+    # Requires keys in dictionary to be all lowercase
+    lowerQuote = quote.lower()
+    # If the message matches a dictionary key
+    if lowerQuote in quote_response_dict:
+        # Set the key-paired value as the response message and return the value
+        return quote_response_dict[lowerQuote]
+    # If message does NOT match a dictionary key, return nothing
+    else:
+        return None
 
 
 # Xion_Commands.kh_wiki()

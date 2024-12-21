@@ -31,7 +31,11 @@ class XionCommands(commands.Cog):
 
         # Process the command if the message starts with command prefix, otherwise see if message matches quote-response dictionary
         if not message.content.startswith(self.bot.command_prefix):
-            await message.channel.send(XionFunctions.pick_response(message=message))
+            # Check if incoming message matches quote from quote-response dictionary
+            response = XionFunctions.pick_response(message.content)
+            # If there's a match, send the appropriate response
+            if response:
+                await message.channel.send(response)
 
     # Cool embedded message command to print out all of the members of Organization XIII and some details about each of them in a pretty looking way
     @commands.command(
